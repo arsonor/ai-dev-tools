@@ -1,0 +1,46 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1>My Todos</h1>
+    <a href="{% url 'todo_create' %}" class="btn">New Todo</a>
+</div>
+
+{% if todos %}
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        {% for todo in todos %}
+        <div style="border: 1px solid #ddd; padding: 15px; border-radius: 4px; {% if todo.resolved %}background-color: #f0f0f0;{% endif %}">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="flex: 1;">
+                    <h3 style="margin-bottom: 8px; {% if todo.resolved %}text-decoration: line-through; color: #888;{% endif %}">
+                        {{ todo.title }}
+                    </h3>
+                    {% if todo.description %}
+                    <p style="color: #666; margin-bottom: 10px;">{{ todo.description }}</p>
+                    {% endif %}
+                    <div style="display: flex; gap: 15px; font-size: 14px; color: #666;">
+                        {% if todo.due_date %}
+                        <span><strong>Due:</strong> {{ todo.due_date }}</span>
+                        {% endif %}
+                        <span><strong>Status:</strong> {% if todo.resolved %}Resolved{% else %}Active{% endif %}</span>
+                        <span><strong>Created:</strong> {{ todo.created_at|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; margin-left: 15px;">
+                    <form method="post" action="{% url 'todo_toggle_resolved' todo.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm {% if todo.resolved %}btn-secondary{% else %}btn-success{% endif %}">
+                            {% if todo.resolved %}Unresolve{% else %}Resolve{% endif %}
+                        </button>
+                    </form>
+                    <a href="{% url 'todo_edit' todo.pk %}" class="btn btn-sm">Edit</a>
+                    <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="text-align: center; color: #666; padding: 40px 0;">No todos yet. Create your first one!</p>
+{% endif %}
+{% endblock %}

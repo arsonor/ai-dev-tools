@@ -1,0 +1,32 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<h1>{{ action }} Todo</h1>
+
+<form method="post" style="margin-top: 30px;">
+    {% csrf_token %}
+
+    <div style="margin-bottom: 20px;">
+        <label for="title" style="display: block; margin-bottom: 5px; font-weight: bold;">Title *</label>
+        <input type="text" id="title" name="title" value="{{ todo.title|default:'' }}" required
+               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <label for="description" style="display: block; margin-bottom: 5px; font-weight: bold;">Description</label>
+        <textarea id="description" name="description" rows="4"
+                  style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">{{ todo.description|default:'' }}</textarea>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <label for="due_date" style="display: block; margin-bottom: 5px; font-weight: bold;">Due Date</label>
+        <input type="date" id="due_date" name="due_date" value="{% if todo.due_date %}{{ todo.due_date|date:'Y-m-d' }}{% endif %}"
+               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <button type="submit" class="btn">Save</button>
+        <a href="{% url 'todo_list' %}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}
