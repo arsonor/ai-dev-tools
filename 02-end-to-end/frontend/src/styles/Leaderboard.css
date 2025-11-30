@@ -1,0 +1,132 @@
+.leaderboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #ecf0f1;
+  padding: 20px;
+}
+
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-header h1 {
+  margin: 0;
+  font-size: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.leaderboard-content {
+  max-width: 800px;
+  margin: 0 auto 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table thead {
+  background: rgba(102, 126, 234, 0.2);
+  border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+}
+
+.leaderboard-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #2ecc71;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.leaderboard-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.3s;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.leaderboard-table tbody tr.current-user {
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.leaderboard-table td {
+  padding: 15px;
+  color: #ecf0f1;
+}
+
+.rank {
+  font-weight: bold;
+  font-size: 18px;
+  width: 80px;
+}
+
+.player {
+  font-weight: 600;
+}
+
+.score {
+  color: #2ecc71;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.you-column {
+  text-align: center;
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #bbb;
+  font-size: 18px;
+}
+
+.error-message {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  padding: 15px 20px;
+  border-radius: 4px;
+  border-left: 4px solid #e74c3c;
+}
+
+.user-rank-info {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(46, 204, 113, 0.1);
+  border: 2px solid #2ecc71;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+}
+
+.user-rank-info p {
+  margin: 8px 0;
+  color: #ecf0f1;
+}
+
+.user-rank-info strong {
+  color: #2ecc71;
+}
