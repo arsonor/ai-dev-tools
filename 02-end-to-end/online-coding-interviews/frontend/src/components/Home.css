@@ -1,0 +1,118 @@
+.home {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.home-container {
+  background: white;
+  border-radius: 16px;
+  padding: 48px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.home h1 {
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 32px;
+  text-align: center;
+}
+
+.subtitle {
+  color: #666;
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.action-section {
+  margin-bottom: 32px;
+}
+
+.action-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #333;
+  text-align: center;
+}
+
+.action-section button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.action-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-section input {
+  width: 100%;
+}
+
+.divider {
+  text-align: center;
+  margin: 32px 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 16px;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.features {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #eee;
+}
+
+.features h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.features ul {
+  list-style: none;
+}
+
+.features li {
+  padding: 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.features li::before {
+  content: '✓ ';
+  color: #667eea;
+  font-weight: bold;
+  margin-right: 8px;
+}

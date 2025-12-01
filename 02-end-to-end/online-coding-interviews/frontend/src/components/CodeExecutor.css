@@ -1,0 +1,93 @@
+.code-executor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.executor-header {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.executor-header h3 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.executor-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.run-btn {
+  background: #28a745;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.run-btn:hover:not(:disabled) {
+  background: #218838;
+}
+
+.clear-btn {
+  background: #6c757d;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.clear-btn:hover:not(:disabled) {
+  background: #5a6268;
+}
+
+.output-area {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.output-text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.error-message {
+  color: #f48771;
+}
+
+.error-message strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #f48771;
+}
+
+.error-message pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.loading {
+  color: #4ec9b0;
+  font-style: italic;
+}
+
+.empty-state {
+  color: #858585;
+  font-style: italic;
+  text-align: center;
+  padding: 40px 20px;
+}
