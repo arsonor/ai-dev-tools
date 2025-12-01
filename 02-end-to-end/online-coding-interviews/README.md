@@ -47,3 +47,21 @@ Frontend runs on `http://localhost:5173`
 3. Open the frontend URL in your browser
 4. Create a new session or join an existing one
 5. Share the session link with others to collaborate in real-time
+
+## Testing
+
+Run the integration tests to verify client-server interaction:
+
+```bash
+cd backend
+uv pip install -r requirements.txt  # Includes test dependencies
+.venv\Scripts\activate              # Windows (or source .venv/bin/activate on Mac/Linux)
+pytest test_integration.py -v
+```
+
+See [TESTING.md](TESTING.md) for detailed testing documentation.
+
+## Documentation
+
+- [SETUP.md](SETUP.md) - Detailed setup instructions
+- [TESTING.md](TESTING.md) - Testing guide and test documentation

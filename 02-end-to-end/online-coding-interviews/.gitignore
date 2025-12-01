@@ -23,6 +23,12 @@ wheels/
 venv/
 ENV/
 env/
+uv.lock
+
+# Test coverage
+htmlcov/
+.coverage
+.pytest_cache/
 
 # Node
 node_modules/
