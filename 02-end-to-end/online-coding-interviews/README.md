@@ -76,7 +76,7 @@ Deploy to Render with WebSocket support and automatic HTTPS:
 1. Push your code to GitHub
 2. Go to https://render.com and sign up/login
 3. Click "New" → "Blueprint"
-4. Connect your repository - Render will auto-detect `render.yaml`
+4. Connect your repository - Render will auto-detect `render.yaml` in the repo root
 
 **Option 2: Manual Setup:**
 1. Go to https://render.com

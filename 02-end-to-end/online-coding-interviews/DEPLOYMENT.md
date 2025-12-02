@@ -73,7 +73,7 @@ This method uses the included `render.yaml` configuration file.
 
 ### Blueprint Configuration (`render.yaml`)
 
-The included `render.yaml` file contains:
+The `render.yaml` file is located in the **repository root** and contains:
 
 ```yaml
 services:
@@ -81,8 +81,8 @@ services:
     name: collaborative-coding-platform
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: ./02-end-to-end/online-coding-interviews/Dockerfile
+    dockerContext: ./02-end-to-end/online-coding-interviews
     envVars:
       - key: PORT
         value: 8000
@@ -92,7 +92,8 @@ services:
 - `type: web`: Web service with HTTP/WebSocket support
 - `env: docker`: Uses Docker for deployment
 - `plan: free`: Free tier (750 hours/month)
-- `dockerfilePath`: Points to our Dockerfile
+- `dockerfilePath`: Points to the Dockerfile in the project subdirectory
+- `dockerContext`: Sets build context to the project directory
 - `PORT: 8000`: FastAPI runs on port 8000
 
 ### Environment Variables

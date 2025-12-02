@@ -3,8 +3,8 @@ services:
     name: collaborative-coding-platform
     env: docker
     plan: free
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: ./02-end-to-end/online-coding-interviews/Dockerfile
+    dockerContext: ./02-end-to-end/online-coding-interviews
     envVars:
       - key: PORT
         value: 8000
