@@ -23,7 +23,6 @@ wheels/
 venv/
 ENV/
 env/
-uv.lock
 
 # Test coverage
 htmlcov/
