@@ -68,19 +68,22 @@ npm run dev
 
 ## Deployment
 
-### Fly.io (Recommended for Production)
+### Render (Recommended for Production)
 
-Deploy to Fly.io with WebSocket support and automatic HTTPS:
+Deploy to Render with WebSocket support and automatic HTTPS:
 
-```bash
-# Install flyctl CLI
-curl -L https://fly.io/install.sh | sh
+**Option 1: Blueprint (uses render.yaml):**
+1. Push your code to GitHub
+2. Go to https://render.com and sign up/login
+3. Click "New" → "Blueprint"
+4. Connect your repository - Render will auto-detect `render.yaml`
 
-# Login and deploy
-fly auth login
-fly launch
-fly deploy
-```
+**Option 2: Manual Setup:**
+1. Go to https://render.com
+2. Click "New" → "Web Service"
+3. Connect your GitHub repository
+4. Select "Docker" as environment
+5. Deploy
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
@@ -113,4 +116,4 @@ See [TESTING.md](TESTING.md) for detailed testing documentation.
 
 - [SETUP.md](SETUP.md) - Detailed setup instructions
 - [TESTING.md](TESTING.md) - Testing guide and test documentation
-- [DEPLOYMENT.md](DEPLOYMENT.md) - Production deployment guide (Fly.io)
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Production deployment guide (Render)
