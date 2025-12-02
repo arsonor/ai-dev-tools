@@ -1,0 +1,42 @@
+# Node modules
+frontend/node_modules
+node_modules
+
+# Python virtual environments
+backend/.venv
+backend/__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Testing
+backend/.pytest_cache
+frontend/coverage
+
+# Build outputs
+frontend/dist
+frontend/build
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -4,10 +4,48 @@ Follow these steps to get the collaborative coding platform running on your mach
 
 ## Prerequisites
 
+### For Docker Deployment (Recommended)
+- Docker
+- Docker Compose
+
+### For Local Development
 - Python 3.10 or higher
 - Node.js 18 or higher
 - npm
 - uv (Python package manager) - Install with: `pip install uv`
+
+## Docker Deployment (Recommended)
+
+The easiest way to run the application is using Docker:
+
+1. **Clone the repository** (if you haven't already)
+
+2. **Build and run with Docker Compose:**
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the application:**
+   - Open your browser and go to `http://localhost:8000`
+
+4. **Stop the application:**
+   ```bash
+   docker-compose down
+   ```
+
+### Docker Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `docker-compose up` | Start the application |
+| `docker-compose up --build` | Rebuild and start |
+| `docker-compose up -d` | Run in background |
+| `docker-compose down` | Stop the application |
+| `docker-compose logs -f` | View logs |
+
+---
+
+## Local Development Setup
 
 ## Quick Start
 

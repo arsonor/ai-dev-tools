@@ -19,7 +19,17 @@ A real-time collaborative coding platform for technical interviews with live cod
 
 ## Getting Started
 
-### Quick Start (Run Both Services)
+### Quick Start with Docker (Recommended)
+
+Run the entire application in a container:
+
+```bash
+docker-compose up --build
+```
+
+The application will be available at `http://localhost:8000`
+
+### Quick Start (Development Mode)
 
 Run both frontend and backend together with a single command:
 
@@ -55,6 +65,21 @@ npm run dev
 2. Open your browser and go to `http://localhost:5173`
 3. Create a new session or join an existing one
 4. Share the session link with others to collaborate in real-time
+
+## Deployment
+
+### Docker Deployment
+
+Build and run with Docker:
+```bash
+docker-compose up --build
+```
+
+Or using Docker directly:
+```bash
+docker build -t collaborative-coding .
+docker run -p 8000:8000 collaborative-coding
+```
 
 ## Testing
 

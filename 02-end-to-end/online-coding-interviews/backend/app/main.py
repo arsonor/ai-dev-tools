@@ -1,9 +1,13 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from typing import Dict, List, Set
 import json
 import uuid
 from datetime import datetime
+from pathlib import Path
+import os
 
 app = FastAPI(title="Collaborative Coding Interview Platform")
 
@@ -159,6 +163,24 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
     except Exception as e:
         print(f"WebSocket error: {e}")
         manager.disconnect(websocket, session_id)
+
+
+# Serve static files (for Docker deployment)
+static_dir = Path(__file__).parent.parent / "static"
+if static_dir.exists():
+    app.mount("/assets", StaticFiles(directory=static_dir / "assets"), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        """Serve frontend files for production (Docker)"""
+        # Serve index.html for all frontend routes
+        if full_path and not full_path.startswith("api"):
+            file_path = static_dir / full_path
+            if file_path.exists() and file_path.is_file():
+                return FileResponse(file_path)
+
+        # Default to index.html for SPA routing
+        return FileResponse(static_dir / "index.html")
 
 
 if __name__ == "__main__":
