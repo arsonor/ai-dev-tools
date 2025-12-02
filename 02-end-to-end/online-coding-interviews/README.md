@@ -7,7 +7,8 @@ A real-time collaborative coding platform for technical interviews with live cod
 - 🔗 Shareable session links
 - 👥 Multi-user real-time collaboration
 - 🎨 Syntax highlighting for multiple languages
-- ▶️ In-browser code execution
+- ▶️ In-browser code execution (JavaScript & Python via WebAssembly)
+- 🐍 Python execution powered by Pyodide (no server-side execution)
 - 🚀 WebSocket-based real-time sync
 
 ## Tech Stack

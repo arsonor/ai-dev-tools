@@ -114,8 +114,10 @@ uv run pytest
 ## Features
 
 - **Real-time Collaboration**: All users see code changes instantly
-- **Syntax Highlighting**: Support for multiple programming languages
-- **Code Execution**: Run JavaScript code directly in the browser
+- **Syntax Highlighting**: Support for multiple programming languages (powered by Monaco Editor)
+- **Code Execution**: Run JavaScript and Python code directly in the browser
+  - JavaScript: Native execution with console output capture
+  - Python: Powered by Pyodide (WebAssembly) - runs entirely client-side for security
 - **Session Management**: Create and join sessions with shareable links
 - **Participant Tracking**: See how many people are in the session
 
@@ -137,5 +139,8 @@ uv run pytest
 
 - The backend uses in-memory storage, so sessions will be lost when the server restarts
 - For production, consider adding persistent storage (database)
-- The code execution currently only supports JavaScript safely; Python uses code analysis
+- Code execution is client-side only for security:
+  - **JavaScript**: Runs using browser's native JavaScript engine
+  - **Python**: Runs using Pyodide (WebAssembly), loaded from CDN on first use
+  - Note: Python execution requires loading ~10MB Pyodide runtime on first page load
 - To add more languages, implement execution handlers in `CodeExecutor.jsx`

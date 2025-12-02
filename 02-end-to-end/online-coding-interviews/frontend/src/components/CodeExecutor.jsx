@@ -1,8 +1,65 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './CodeExecutor.css'
 
 function CodeExecutor({ code, language, onExecute, output, isExecuting, setIsExecuting }) {
   const [error, setError] = useState('')
+  const [pyodideLoading, setPyodideLoading] = useState(false)
+  const pyodideInstance = useRef(null)
+
+  // Initialize Pyodide on component mount
+  useEffect(() => {
+    const initPyodide = async () => {
+      if (pyodideInstance.current) return
+
+      setPyodideLoading(true)
+      try {
+        // Load Pyodide from CDN
+        const pyodide = await window.loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/'
+        })
+        pyodideInstance.current = pyodide
+      } catch (err) {
+        console.error('Failed to load Pyodide:', err)
+      } finally {
+        setPyodideLoading(false)
+      }
+    }
+
+    initPyodide()
+  }, [])
+
+  const executePython = async (code) => {
+    if (!pyodideInstance.current) {
+      return 'Pyodide is still loading. Please wait a moment and try again.'
+    }
+
+    const pyodide = pyodideInstance.current
+    const output = []
+
+    try {
+      // Redirect stdout to capture print statements
+      await pyodide.runPythonAsync(`
+import sys
+import io
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
+`)
+
+      // Execute the user's code
+      await pyodide.runPythonAsync(code)
+
+      // Get the captured output
+      const stdout = await pyodide.runPythonAsync('sys.stdout.getvalue()')
+      const stderr = await pyodide.runPythonAsync('sys.stderr.getvalue()')
+
+      if (stdout) output.push(stdout)
+      if (stderr) output.push('Errors:\n' + stderr)
+
+      return output.length > 0 ? output.join('\n') : 'Code executed successfully (no output)'
+    } catch (err) {
+      return `Error: ${err.message}`
+    }
+  }
 
   const executeCode = async () => {
     setIsExecuting(true)
@@ -14,7 +71,7 @@ function CodeExecutor({ code, language, onExecute, output, isExecuting, setIsExe
       if (language === 'javascript') {
         result = executeJavaScript(code)
       } else if (language === 'python') {
-        result = 'Python execution in browser requires Pyodide library.\nFor now, showing code analysis:\n\n' + analyzeCode(code)
+        result = await executePython(code)
       } else {
         result = `Execution for ${language} is not yet implemented in the browser.\n\nCode to execute:\n${code}`
       }
@@ -64,40 +121,6 @@ function CodeExecutor({ code, language, onExecute, output, isExecuting, setIsExe
     }
   }
 
-  const analyzeCode = (code) => {
-    const lines = code.split('\n').filter(line => line.trim())
-    const analysis = []
-
-    analysis.push(`Total lines: ${lines.length}`)
-
-    const functions = lines.filter(line => line.trim().startsWith('def '))
-    if (functions.length > 0) {
-      analysis.push(`\nFunctions defined: ${functions.length}`)
-      functions.forEach(fn => {
-        const match = fn.match(/def\s+(\w+)/)
-        if (match) analysis.push(`  - ${match[1]}()`)
-      })
-    }
-
-    const classes = lines.filter(line => line.trim().startsWith('class '))
-    if (classes.length > 0) {
-      analysis.push(`\nClasses defined: ${classes.length}`)
-      classes.forEach(cls => {
-        const match = cls.match(/class\s+(\w+)/)
-        if (match) analysis.push(`  - ${match[1]}`)
-      })
-    }
-
-    const imports = lines.filter(line =>
-      line.trim().startsWith('import ') || line.trim().startsWith('from ')
-    )
-    if (imports.length > 0) {
-      analysis.push(`\nImports: ${imports.length}`)
-    }
-
-    return analysis.join('\n')
-  }
-
   const clearOutput = () => {
     onExecute('')
     setError('')
@@ -110,10 +133,10 @@ function CodeExecutor({ code, language, onExecute, output, isExecuting, setIsExe
         <div className="executor-actions">
           <button
             onClick={executeCode}
-            disabled={isExecuting}
+            disabled={isExecuting || (language === 'python' && pyodideLoading)}
             className="run-btn"
           >
-            {isExecuting ? 'Running...' : '▶ Run Code'}
+            {isExecuting ? 'Running...' : (language === 'python' && pyodideLoading) ? 'Loading Python...' : '▶ Run Code'}
           </button>
           <button
             onClick={clearOutput}
