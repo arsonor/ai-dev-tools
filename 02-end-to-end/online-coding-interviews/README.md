@@ -22,10 +22,8 @@ A real-time collaborative coding platform for technical interviews with live cod
 
 ```bash
 cd backend
-uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-uv pip install -r requirements.txt
-python main.py
+uv sync
+uv run uvicorn app.main:app --reload
 ```
 
 Backend runs on `http://localhost:8000`
@@ -54,9 +52,8 @@ Run the integration tests to verify client-server interaction:
 
 ```bash
 cd backend
-uv pip install -r requirements.txt  # Includes test dependencies
-.venv\Scripts\activate              # Windows (or source .venv/bin/activate on Mac/Linux)
-pytest test_integration.py -v
+uv sync --extra test  # Install test dependencies
+uv run pytest
 ```
 
 See [TESTING.md](TESTING.md) for detailed testing documentation.

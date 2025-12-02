@@ -17,12 +17,18 @@ The integration tests verify the complete interaction between client and server,
 ## Test File Structure
 
 ```
-backend/test_integration.py
-├── TestSessionManagement      # Session creation and retrieval
-├── TestWebSocketConnection    # WebSocket connections
-├── TestCodeSynchronization    # Real-time code sync
-├── TestMultiClientCollaboration  # Multiple clients
-└── TestEdgeCases             # Error handling and edge cases
+backend/
+├── app/
+│   ├── __init__.py
+│   └── main.py                # Main application code
+└── tests/
+    ├── __init__.py
+    └── test_integration.py    # Integration tests
+        ├── TestSessionManagement      # Session creation and retrieval
+        ├── TestWebSocketConnection    # WebSocket connections
+        ├── TestCodeSynchronization    # Real-time code sync
+        ├── TestMultiClientCollaboration  # Multiple clients
+        └── TestEdgeCases             # Error handling and edge cases
 ```
 
 ## Running the Tests
@@ -34,69 +40,59 @@ backend/test_integration.py
    cd backend
    ```
 
-2. Install test dependencies:
+2. Install dependencies (including test dependencies):
    ```bash
-   # Using requirements.txt
-   uv pip install -r requirements.txt
-
-   # OR using pyproject.toml with test extras
-   uv pip install -e ".[test]"
+   uv sync --extra test
    ```
+
+   Note: Test dependencies are optional extras. You only need to run this once, or whenever test dependencies change.
 
 ### Run All Tests
 
-**Recommended approach:**
+**Recommended approach (using uv):**
 ```bash
-# Activate virtual environment
-.venv\Scripts\activate  # Windows
-source .venv/bin/activate  # Mac/Linux
-
-# Run tests
-pytest test_integration.py
+uv run pytest
 ```
 
-**Or using uv without activating venv:**
-```bash
-uv run --no-project pytest test_integration.py
-```
+This will automatically discover and run all tests in the `tests/` directory.
 
 ### Run Specific Test Classes
 
 ```bash
 # Test only session management
-pytest test_integration.py::TestSessionManagement
+uv run pytest tests/test_integration.py::TestSessionManagement
 
 # Test only WebSocket connections
-pytest test_integration.py::TestWebSocketConnection
+uv run pytest tests/test_integration.py::TestWebSocketConnection
 
 # Test only code synchronization
-pytest test_integration.py::TestCodeSynchronization
+uv run pytest tests/test_integration.py::TestCodeSynchronization
 ```
 
 ### Run Specific Test Functions
 
 ```bash
 # Test a specific function
-pytest test_integration.py::TestSessionManagement::test_create_session
+uv run pytest tests/test_integration.py::TestSessionManagement::test_create_session
 
 # Test multiple clients collaboration
-pytest test_integration.py::TestMultiClientCollaboration::test_three_clients_collaboration
+uv run pytest tests/test_integration.py::TestMultiClientCollaboration::test_three_clients_collaboration
 ```
 
 ### Run with Verbose Output
 
 ```bash
-pytest test_integration.py -v
+uv run pytest -v
 ```
 
 ### Run with Coverage Report
 
 ```bash
-# Install coverage first
+# Install coverage first (add to pyproject.toml or install manually)
 uv pip install pytest-cov
 
 # Run with coverage
-pytest test_integration.py --cov=main --cov-report=html
+uv run pytest --cov=app --cov-report=html
 
 # Open coverage report
 # Windows: start htmlcov\index.html
@@ -107,10 +103,10 @@ pytest test_integration.py --cov=main --cov-report=html
 
 ```bash
 # Show print statements
-pytest test_integration.py -s
+uv run pytest -s
 
 # Show both verbose and output
-pytest test_integration.py -v -s
+uv run pytest -v -s
 ```
 
 ## Understanding Test Results
@@ -167,7 +163,7 @@ AssertionError: assert 200 == 201
 ```
 ModuleNotFoundError: No module named 'pytest'
 ```
-**Solution**: Install test dependencies with `uv pip install -r requirements.txt`
+**Solution**: Install test dependencies with `uv sync --extra test`
 
 ### WebSocket Connection Failures
 ```
@@ -192,18 +188,14 @@ RuntimeError: Event loop is closed
 To run tests in CI/CD pipeline:
 
 ```bash
-# Install dependencies
-uv pip install -r requirements.txt
-
-# Activate virtual environment
-source .venv/bin/activate  # Mac/Linux
-# .venv\Scripts\activate  # Windows
+# Install dependencies including test extras
+uv sync --extra test
 
 # Run tests with JUnit XML output
-pytest test_integration.py --junit-xml=test-results.xml
+uv run pytest --junit-xml=test-results.xml
 
 # Or run with coverage for CI
-pytest test_integration.py --cov=main --cov-report=xml
+uv run pytest --cov=app --cov-report=xml
 ```
 
 ## Writing New Tests
@@ -229,14 +221,14 @@ class TestNewFeature:
 
 | Command | Description |
 |---------|-------------|
-| `pytest test_integration.py` | Run all tests |
-| `pytest test_integration.py -v` | Verbose output |
-| `pytest test_integration.py -k "session"` | Run tests matching "session" |
-| `pytest test_integration.py --lf` | Run last failed tests |
-| `pytest test_integration.py --tb=short` | Short traceback format |
-| `pytest test_integration.py -x` | Stop on first failure |
+| `uv run pytest` | Run all tests |
+| `uv run pytest -v` | Verbose output |
+| `uv run pytest -k "session"` | Run tests matching "session" |
+| `uv run pytest --lf` | Run last failed tests |
+| `uv run pytest --tb=short` | Short traceback format |
+| `uv run pytest -x` | Stop on first failure |
 
-**Note:** Make sure to activate the virtual environment first (`.venv\Scripts\activate` on Windows or `source .venv/bin/activate` on Mac/Linux)
+**Note:** No need to activate the virtual environment when using `uv run`
 
 ## Expected Test Duration
 

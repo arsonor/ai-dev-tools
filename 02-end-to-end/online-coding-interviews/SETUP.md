@@ -16,31 +16,32 @@ Follow these steps to get the collaborative coding platform running on your mach
    cd backend
    ```
 
-2. Create a virtual environment using uv:
+2. Install dependencies using uv:
    ```bash
-   uv venv
+   uv sync
    ```
 
-3. Activate the virtual environment:
-   - **Windows**: `.venv\Scripts\activate`
-   - **Mac/Linux**: `source .venv/bin/activate`
+   This will create a virtual environment and install all dependencies from `pyproject.toml`.
 
-4. Install dependencies:
+3. Start the backend server:
    ```bash
-   uv pip install -r requirements.txt
+   uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
    ```
 
-   Or if using pyproject.toml:
+   Or with auto-reload for development:
    ```bash
-   uv pip install -e .
-   ```
-
-5. Start the backend server:
-   ```bash
-   python main.py
+   uv run uvicorn app.main:app --reload
    ```
 
    The backend will start on `http://localhost:8000`
+
+### Running Tests
+
+To run the integration tests:
+```bash
+uv sync --extra test  # Install test dependencies
+uv run pytest
+```
 
 ## Frontend Setup
 
@@ -80,8 +81,9 @@ Follow these steps to get the collaborative coding platform running on your mach
 
 ### Backend Issues
 
-- **Port 8000 already in use**: Change the port in `backend/main.py` (line with `uvicorn.run`)
+- **Port 8000 already in use**: Change the port using `--port` flag: `uv run uvicorn app.main:app --port 8001`
 - **WebSocket connection failed**: Ensure the backend is running and CORS is properly configured
+- **Import errors**: Run `uv sync` to ensure all dependencies are installed
 
 ### Frontend Issues
 

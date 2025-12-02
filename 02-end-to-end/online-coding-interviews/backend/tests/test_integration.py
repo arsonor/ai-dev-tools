@@ -2,7 +2,7 @@ import pytest
 import json
 from fastapi.testclient import TestClient
 from fastapi.websockets import WebSocket
-from main import app, sessions, manager
+from app.main import app, sessions, manager
 import asyncio
 
 
