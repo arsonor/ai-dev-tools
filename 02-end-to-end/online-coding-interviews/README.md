@@ -18,33 +18,42 @@ A real-time collaborative coding platform for technical interviews with live cod
 
 ## Getting Started
 
-### Backend Setup
+### Quick Start (Run Both Services)
 
+Run both frontend and backend together with a single command:
+
+```bash
+cd frontend
+npm install
+npm run dev:all
+```
+
+This will start:
+- Frontend on `http://localhost:5173`
+- Backend on `http://localhost:8000`
+
+### Individual Setup
+
+**Backend only:**
 ```bash
 cd backend
 uv sync
 uv run uvicorn app.main:app --reload
 ```
 
-Backend runs on `http://localhost:8000`
-
-### Frontend Setup
-
+**Frontend only:**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Frontend runs on `http://localhost:5173`
-
 ## Usage
 
-1. Start the backend server
-2. Start the frontend development server
-3. Open the frontend URL in your browser
-4. Create a new session or join an existing one
-5. Share the session link with others to collaborate in real-time
+1. Run both services with `npm run dev:all` (from frontend directory)
+2. Open your browser and go to `http://localhost:5173`
+3. Create a new session or join an existing one
+4. Share the session link with others to collaborate in real-time
 
 ## Testing
 

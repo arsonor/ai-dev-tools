@@ -6,8 +6,34 @@ Follow these steps to get the collaborative coding platform running on your mach
 
 - Python 3.10 or higher
 - Node.js 18 or higher
-- npm or yarn
+- npm
 - uv (Python package manager) - Install with: `pip install uv`
+
+## Quick Start
+
+If you want to run both frontend and backend together:
+
+1. Install backend dependencies:
+   ```bash
+   cd backend
+   uv sync
+   cd ..
+   ```
+
+2. Install frontend dependencies and run both services:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev:all
+   ```
+
+   This will start both the frontend (port 5173) and backend (port 8000) concurrently.
+
+3. Open your browser and go to `http://localhost:5173`
+
+---
+
+For individual setup and more control, follow the detailed steps below:
 
 ## Backend Setup
 
@@ -61,6 +87,22 @@ uv run pytest
    ```
 
    The frontend will start on `http://localhost:5173`
+
+## Available Commands
+
+### Frontend Commands (from frontend/ directory)
+
+- `npm run dev` - Run frontend only
+- `npm run dev:backend` - Run backend only (from frontend directory)
+- `npm run dev:all` - Run both frontend and backend concurrently
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+
+### Backend Commands (from backend/ directory)
+
+- `uv sync` - Install dependencies
+- `uv run uvicorn app.main:app --reload` - Run backend with auto-reload
+- `uv run pytest` - Run tests
 
 ## Usage
 
