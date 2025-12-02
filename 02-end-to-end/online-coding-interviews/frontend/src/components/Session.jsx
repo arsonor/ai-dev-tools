@@ -3,9 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import CodeEditor from './CodeEditor'
 import CodeExecutor from './CodeExecutor'
 import { useWebSocket } from '../hooks/useWebSocket'
+import { API_URL } from '../config'
 import './Session.css'
-
-const API_URL = 'http://localhost:8000'
 
 function Session() {
   const { sessionId } = useParams()

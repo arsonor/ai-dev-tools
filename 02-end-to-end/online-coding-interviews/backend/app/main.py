@@ -17,17 +17,17 @@ allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:8000",
-    "https://*.fly.dev",  # Fly.io production
+    "https://*.onrender.com",  # Render production
 ]
 
 # In production, also allow the same origin (when frontend is served from backend)
-if os.getenv("FLY_APP_NAME"):
-    # Running on Fly.io
+if os.getenv("RENDER") or os.getenv("FLY_APP_NAME"):
+    # Running on Render or Fly.io
     allowed_origins.append("*")  # Allow same origin in production
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins if not os.getenv("FLY_APP_NAME") else ["*"],
+    allow_origins=allowed_origins if not (os.getenv("RENDER") or os.getenv("FLY_APP_NAME")) else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

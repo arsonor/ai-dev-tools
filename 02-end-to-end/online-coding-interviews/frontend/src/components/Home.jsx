@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { API_URL } from '../config'
 import './Home.css'
-
-const API_URL = 'http://localhost:8000'
 
 function Home() {
   const [sessionId, setSessionId] = useState('')
