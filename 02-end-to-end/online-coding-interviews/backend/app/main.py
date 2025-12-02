@@ -73,9 +73,9 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Collaborative Coding Interview Platform API"}
+@app.get("/api/health")
+async def health_check():
+    return {"message": "Collaborative Coding Interview Platform API", "status": "healthy"}
 
 
 @app.post("/sessions")
