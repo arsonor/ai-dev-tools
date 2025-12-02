@@ -68,6 +68,22 @@ npm run dev
 
 ## Deployment
 
+### Fly.io (Recommended for Production)
+
+Deploy to Fly.io with WebSocket support and automatic HTTPS:
+
+```bash
+# Install flyctl CLI
+curl -L https://fly.io/install.sh | sh
+
+# Login and deploy
+fly auth login
+fly launch
+fly deploy
+```
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
 ### Docker Deployment
 
 Build and run with Docker:
@@ -97,3 +113,4 @@ See [TESTING.md](TESTING.md) for detailed testing documentation.
 
 - [SETUP.md](SETUP.md) - Detailed setup instructions
 - [TESTING.md](TESTING.md) - Testing guide and test documentation
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Production deployment guide (Fly.io)

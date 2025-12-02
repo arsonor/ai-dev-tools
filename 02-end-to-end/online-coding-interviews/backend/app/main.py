@@ -12,9 +12,22 @@ import os
 app = FastAPI(title="Collaborative Coding Interview Platform")
 
 # CORS configuration
+# Allow local development and production origins
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:8000",
+    "https://*.fly.dev",  # Fly.io production
+]
+
+# In production, also allow the same origin (when frontend is served from backend)
+if os.getenv("FLY_APP_NAME"):
+    # Running on Fly.io
+    allowed_origins.append("*")  # Allow same origin in production
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=allowed_origins if not os.getenv("FLY_APP_NAME") else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
