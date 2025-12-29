@@ -58,6 +58,16 @@ uv run python app.py  # Run application (when implemented)
    - `nextDirectionRef` (useRef): Tracks pending direction changes without state batching delays
    - **Why**: React's state batching and closure behavior broke collision detection. By separating game logic (refs) from rendering (state), collisions are detected against current state immediately, not stale state from previous renders.
    - **Result**: Food collision detection now works reliably every time.
+6. **Trail-Based Smooth Animation System**: Snake moves as one continuous piece following the head's path:
+   - `trail`: Array storing the path the head has traveled (5 points per grid segment)
+   - `trailRef`: Ref for immediate trail access without React state delays
+   - `tickTime`: Timestamp of last game tick for calculating animation progress
+   - **How it works**:
+     - Each tick, interpolated points are added to the trail from newHead back to prevHead
+     - Canvas renders by sliding through trail points based on animation progress
+     - Sub-point interpolation between trail points for extra smoothness (60fps)
+   - **Wrap-around handling**: Detects when adjacent trail points are far apart and skips interpolation to avoid visual glitches
+   - **Visual style**: Circular segments with gradient from bright head to faded tail, eyes that follow direction
 
 ## Important Features Implemented
 
@@ -118,12 +128,15 @@ The API service is fully mocked with:
 
 ## Performance Notes
 
-- Game runs at 2 moves/second (500ms per move) for comfortable playability
-- Canvas optimized for 20x20 grid
+- Game logic runs at ~6.7 moves/second (150ms per tick) while rendering runs at 60fps
+- Canvas optimized for 20x20 grid with requestAnimationFrame for smooth 60fps rendering
+- Pre-rendered grid canvas copied each frame for efficiency
+- Trail-based animation with 5 interpolation points per segment
 - Food generation is O(1) amortized with attempt limit of 100 tries
 - Snake collision detection is O(n) where n = snake length
 - Leaderboard auto-refreshes every 5 seconds
 - Game state updates are immediate (useRef) while rendering uses React state batching
+- Animation interpolation separates game logic (discrete 150ms) from visual rendering (continuous 60fps)
 
 ## Common Debugging
 

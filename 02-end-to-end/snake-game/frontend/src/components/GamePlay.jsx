@@ -8,11 +8,13 @@ import {
   DIRECTIONS,
   getSnakeLength,
   getScore,
+  GRID_SIZE,
 } from '../services/gameLogic';
 import { gameAPI } from '../services/api';
 import '../styles/Game.css';
 
-const GAME_SPEED = 500; // milliseconds between moves - 2 moves per second
+const GAME_SPEED = 150; // milliseconds between moves - ~6.7 moves per second
+const POINTS_PER_SEGMENT = 5; // Interpolation points per snake segment
 
 const GamePlay = ({ gameMode }) => {
   // Use ref to track game state for immediate access
@@ -24,12 +26,36 @@ const GamePlay = ({ gameMode }) => {
   const nextDirectionRef = useRef(DIRECTIONS.RIGHT);
   const navigate = useNavigate();
 
+  // Initialize trail from snake positions
+  const initTrail = (snake) => {
+    const newTrail = [];
+    // Create initial trail from snake segments
+    for (let i = 0; i < snake.length; i++) {
+      const seg = snake[i];
+      // Add multiple points per segment
+      for (let j = 0; j < POINTS_PER_SEGMENT; j++) {
+        newTrail.push({ x: seg.x, y: seg.y });
+      }
+    }
+    return newTrail;
+  };
+
+  // Trail for smooth snake movement - stores path the head has traveled
+  const initialTrailValue = initTrail(gameStateRef.current.snake);
+  const trailRef = useRef(initialTrailValue);
+  const [trail, setTrail] = useState(initialTrailValue);
+  const [tickTime, setTickTime] = useState(Date.now());
+
   // Start game with spacebar
   const handleStartGame = async () => {
     const initialState = initializeGame(gameMode);
     gameStateRef.current = initialState;
     nextDirectionRef.current = DIRECTIONS.RIGHT;
+    const initialTrail = initTrail(initialState.snake);
+    trailRef.current = initialTrail;
+    setTrail(initialTrail);
     setGameState(initialState);
+    setTickTime(Date.now());
     setFinalScore(0);
     setIsPlaying(true);
   };
@@ -48,6 +74,9 @@ const GamePlay = ({ gameMode }) => {
         return;
       }
 
+      // Store previous head position
+      const prevHead = { ...current.snake[0] };
+
       // Apply pending direction change
       current = {
         ...current,
@@ -58,8 +87,41 @@ const GamePlay = ({ gameMode }) => {
       // Update game
       current = updateGame(current);
 
+      // Get new head position
+      const newHead = current.snake[0];
+
+      // Calculate if this was a wrap-around
+      const dx = newHead.x - prevHead.x;
+      const dy = newHead.y - prevHead.y;
+      const wrapped = Math.abs(dx) > 1 || Math.abs(dy) > 1;
+
+      // Add interpolated points to trail (from newHead backwards to prevHead)
+      const newPoints = [];
+      if (wrapped) {
+        // For wrap-around, just add the new position directly
+        for (let i = 0; i < POINTS_PER_SEGMENT; i++) {
+          newPoints.push({ x: newHead.x, y: newHead.y });
+        }
+      } else {
+        // Interpolate from new head back towards previous (index 0 = newHead)
+        for (let i = 0; i < POINTS_PER_SEGMENT; i++) {
+          const t = i / POINTS_PER_SEGMENT; // 0, 0.2, 0.4, 0.6, 0.8
+          newPoints.push({
+            x: newHead.x - (newHead.x - prevHead.x) * t,
+            y: newHead.y - (newHead.y - prevHead.y) * t
+          });
+        }
+      }
+
+      // Update trail: add new points at front, trim from end
+      const maxTrailLength = (current.snake.length + 1) * POINTS_PER_SEGMENT;
+      const updatedTrail = [...newPoints, ...trailRef.current].slice(0, maxTrailLength);
+      trailRef.current = updatedTrail;
+
       // Update ref and state for rendering
       gameStateRef.current = current;
+      setTrail(updatedTrail);
+      setTickTime(Date.now());
       setGameState(current);
 
       // If game just ended
@@ -131,7 +193,11 @@ const GamePlay = ({ gameMode }) => {
     const initialState = initializeGame(gameMode);
     gameStateRef.current = initialState;
     nextDirectionRef.current = DIRECTIONS.RIGHT;
+    const initialTrail = initTrail(initialState.snake);
+    trailRef.current = initialTrail;
+    setTrail(initialTrail);
     setGameState(initialState);
+    setTickTime(Date.now());
     setFinalScore(0);
     setIsPlaying(true);
   };
@@ -157,7 +223,12 @@ const GamePlay = ({ gameMode }) => {
 
       <div className="game-content">
         <div className="game-canvas-wrapper">
-          <SnakeGameCanvas gameState={gameState} />
+          <SnakeGameCanvas
+            gameState={gameState}
+            trail={trail}
+            tickTime={tickTime}
+            gameSpeed={GAME_SPEED}
+          />
         </div>
 
         <div className="game-stats">

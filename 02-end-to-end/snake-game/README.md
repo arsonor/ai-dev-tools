@@ -19,10 +19,12 @@ A full-stack snake game application with multiplayer features including leaderbo
 - **Session Management**: Automatic game session creation and score updates
 
 ### UI/UX Features
+- **Smooth Animation**: Trail-based rendering for fluid snake movement at 60fps
 - **Interactive Canvas**: Real-time game rendering with grid visualization
 - **Responsive Design**: Works on desktop and tablet devices
 - **Dark Theme**: Professional dark UI with gradient accents
 - **Keyboard Controls**: Arrow keys to control the snake
+- **Visual Polish**: Snake with eyes that follow direction, gradient body coloring
 
 ## Project Structure
 
@@ -197,8 +199,9 @@ When ready to integrate with a real backend:
 ## Performance
 
 - **Bundle Size**: ~78KB gzipped (with dependencies)
-- **Game FPS**: 10 updates/second (100ms ticks)
-- **Canvas Rendering**: Optimized for 20x20 grid
+- **Game Logic**: ~6.7 updates/second (150ms ticks)
+- **Rendering**: Smooth 60fps with trail-based interpolation
+- **Canvas Rendering**: Optimized for 20x20 grid with pre-rendered background
 
 ## Future Enhancements
 
