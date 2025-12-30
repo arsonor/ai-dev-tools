@@ -10,10 +10,18 @@ A Model Context Protocol (MCP) server that provides documentation search and web
    - Uses [Jina Reader](https://jina.ai/reader/) to convert web pages to markdown
    - Simply prepends `r.jina.ai` to any URL for conversion
 
-2. **`search_docs`** - Search FastMCP documentation
+2. **`search_docs`** - Search documentation in any zip file
+   - Accepts a `query` and `zip_path` parameter
    - Returns the top 5 most relevant documentation sections
    - Uses [minsearch](https://github.com/alexeygrigorev/minsearch) for TF-IDF based text search
-   - Indexes 266 markdown files from FastMCP documentation
+   - Automatically loads zip files on first search
+
+3. **`load_zip`** - Load a zip file for searching
+   - Pre-load documentation archives before searching
+   - Returns the number of documents loaded
+
+4. **`list_loaded_zips`** - List all loaded zip files
+   - Shows currently loaded archives with document counts
 
 ## Installation
 
@@ -32,13 +40,15 @@ cd 03-mcp
 uv sync
 ```
 
-### Download FastMCP Documentation
+### Download Documentation (Optional)
 
-The search functionality requires the FastMCP documentation. Download it:
+The search tools work with any zip file containing markdown documentation. For example, to download FastMCP documentation:
 
 ```bash
 uv run python -c "import requests; r = requests.get('https://github.com/jlowin/fastmcp/archive/refs/heads/main.zip'); open('fastmcp.zip', 'wb').write(r.content)"
 ```
+
+You can use any GitHub repository's zip archive or create your own zip files containing `.md` or `.mdx` files.
 
 ## Usage
 
@@ -74,10 +84,9 @@ After updating the config, restart Claude Desktop to load the new MCP server.
 
 ```
 03-mcp/
-├── main.py           # MCP server with fetch_page and search_docs tools
+├── main.py           # MCP server with fetch_page, search_docs, load_zip, list_loaded_zips tools
 ├── search.py         # Search functionality using minsearch
 ├── test.py           # Test script for fetch_page
-├── fastmcp.zip       # FastMCP documentation (downloaded separately)
 ├── pyproject.toml    # Project dependencies
 └── README.md         # This file
 ```
@@ -122,8 +131,9 @@ results = index.search(query, num_results=5)
 Once integrated with Claude Desktop, you can ask:
 
 - "Use fetch_page to get the content of https://example.com"
-- "Use search_docs to find information about creating MCP tools"
-- "Search the docs for how to handle authentication"
+- "Search for 'authentication' in /path/to/docs.zip"
+- "Load the documentation from /path/to/project.zip"
+- "What zip files are currently loaded?"
 
 ## License
 
